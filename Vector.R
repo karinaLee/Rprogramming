@@ -31,3 +31,24 @@ z[c(-3,-5)] #return 1,2,4
 #vectorized operations
 a <- c(1,3,4)+ c(2,42,1) #3,45,5
 b <- c(1) + c(51,124) # c(1) recursive, 52,125
+
+t <- rnorm(100)
+#conventional programming loop
+ for(j in 1:5){
+   print(t[j])
+ }
+#R-specific programming loop
+for(i in t){
+  print(i)
+}
+
+N <- 100
+a <- rnorm(N)
+b <- rnorm(N)
+#vectorized approach
+c <- a + b
+#de-vectorized approach
+d  <- rep(NA,N)
+for(i in 1:N){
+  d[i] <- a[i] * b [i]
+}

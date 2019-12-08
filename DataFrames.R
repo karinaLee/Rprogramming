@@ -7,7 +7,7 @@ rm(stats)
 
 #2 set wd and read data
 getwd() 
-setwd("/Users/katrina09/Desktop/study/Rprogramming") 
+setwd("/Users/katrina09/Documents/R_RPA_CAMP/test") 
 stats <- read.csv("P2-Demographic-Data.csv")
 stats
 
@@ -43,3 +43,51 @@ is.data.frame(stats[,1,drop=F]) #true
 stats$myColc <- stats$Birth.rate * stats$Internet.users
 stats$xyz <-1:5 #recursive 
 stats$myColc <- NULL
+
+
+#----------------------------------- filtering data
+stats
+head(stats)
+filter <- stats$Internet.users < 2
+stats[filter,]
+
+stats[stats$Birth.rate > 40,]
+stats[stats$Birth.rate > 40 & stats$Internet.users < 2,]
+stats[stats$Income.Group == "High income ", ]
+levels(stats$Income.Group)
+
+#----------------------------------- Introduction to qplot()
+?qplot
+qplot(data=stats, x=stats$Internet.users)
+qplot(data=stats, x=stats$Income.Group, y=Birth.rate, size=I(3), colour=I("blue"))
+qplot(data=stats, x=stats$Income.Group, y=Birth.rate, geom="boxplot")
+
+#----------------------------------- Visualizing what we need
+qplot(data = stats, x=Internet.users, y=Birth.rate)
+qplot(data = stats, x=Internet.users, y=Birth.rate, size=I(4) )
+qplot(data = stats, x=Internet.users, y=Birth.rate, colour=Income.Group, size=I(3))
+
+
+#----------------------------------- Creating Data Frames
+mypf <- data.frame(Countries_2012_Dataset, Codes_2012_Dataset,Regions_2012_Dataset)
+mypf
+head(mypf)
+colnames(mypf) <- c("countries","codes","regions")
+rm(mypf)
+mypf <- data.frame(countries=Countries_2012_Dataset, codes=Codes_2012_Dataset,regions=Regions_2012_Dataset)
+
+#----------------------------------- merging Data Frames
+stats
+mypf
+merged <- merge(stats, mypf, by.x="Country.Code", by.y="codes")
+head(merged)
+merged$countries = NULL
+
+#Shape
+qplot(data = merged, x=Internet.users, y=Birth.rate, colour=Income.Group, size=I(3), shape=I(17))
+#Transparency
+qplot(data = merged, x=Internet.users, y=Birth.rate, colour=Income.Group, size=I(3), shape=I(17), alpha=I(0.1))
+#Title
+qplot(data = merged, x=Internet.users, y=Birth.rate, colour=Income.Group, size=I(3), shape=I(17), alpha=I(0.1),main="Birth rate vs Internet users ")
+
+
